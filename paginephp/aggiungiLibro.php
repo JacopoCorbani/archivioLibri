@@ -88,7 +88,10 @@
 
             <div id="ricarica">
                 <label>Autore</label>
-                <select name="autore[]" id="autore" multiple multiselct-search="true" multiselect-max-items="1">
+                <div id="autoriSelezionati">
+
+                </div>
+                <select name="autore[]" id="autore" onchange="lista()" multiple="" multiselect-hide-x="true" multiselect-search="true" multiselect-select-all="true" multiselect-max-items="1">
                     <?php 
                         for ($i=0; $i < count($autori); $i++) { 
                             $cf = $autori[$i]['cf'];
@@ -100,6 +103,27 @@
                 </select>
             </div>
             <button type="button" onclick="aggiungiAutore()">Aggiungi Autore</button><br>
+
+            <script>
+                function lista(){
+                    const div = document.getElementById('autoriSelezionati')
+                    const select = document.getElementById('autore');
+                    const option_selezionati = Array.from(select.selectedOptions);
+
+                    const autori_selezionati = option_selezionati.map(function(option) {
+                        const nome_cognome = option.textContent.trim();
+                        return nome_cognome;
+                    });
+
+                    console.log(autori_selezionati)
+                    div.innerHTML = "";
+                    if(autori_selezionati.length > 0){
+                        autori_selezionati.forEach(autore => {
+                            div.innerHTML += `<span>${autore}; </span>`;
+                        });
+                    }
+                }
+            </script>
             
             <label for="genere">Genere</label>
             <select name="genere" id="genere">
