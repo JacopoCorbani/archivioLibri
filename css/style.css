@@ -1,16 +1,17 @@
 table, th, tr, td{
     border: 1px solid black;
     padding: 5px;
+    background-color: white;
 }
 body{
     width: 100%;
     margin: 0;
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     align-items: center;
     background-color: blue;
 }
-a{
+/* a{
     text-decoration: none;
     color: black;
     margin: 10px 0;
@@ -22,33 +23,17 @@ a:hover{
     background-color: blue;
     color:white;
     margin: 20px 0;
+} */
+nav{
+    background-color: rgb(0, 153, 255);
 }
-header{
-    background-color: aqua;
-    width: 100%;
-    padding: 20px 0;
-    text-align: center;
-    font-size: 25px;
-    display: flex;
-    justify-content: flex-start;
-}
-header > div:nth-child(1) {
-    /* Stili per il primo div (Contenuto a sinistra) */
-    padding: 0 5px;
-}
-
-header > div:nth-child(2) {
-    /* Stili per il secondo div (Contenuto al centro) */
-    margin: auto;
-}
-#contenuto{
-    margin: 8px;
-    text-align: center;
-    background-color: aqua;
+.contenuto{
+    background-color: rgb(0, 153, 255);
     border: solid black 1px;
     border-radius: 20px;
-    padding: 30px;
+    padding: 20px;
     font-size: 20px;
+    margin-top: 10px;
 }
 #autoriSelezionati > span{
     border: solid black 1px;

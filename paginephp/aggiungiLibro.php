@@ -12,7 +12,7 @@
         echo "connessione falita: ". die(mysqli_connect_error());
     }
     
-    $query = "SELECT * FROM autori";
+    $query = "SELECT * FROM autori ORDER BY cognome";
     $risultato = mysqli_query($conn, $query);
 
     if ($risultato) {
@@ -24,7 +24,7 @@
         echo "Errore nella query: " . mysqli_error($conn);
     }
 
-    $query = "SELECT * FROM generi";
+    $query = "SELECT * FROM generi ORDER BY genere";
     $risultato = mysqli_query($conn, $query);
 
     if ($risultato) {
@@ -36,7 +36,7 @@
         echo "Errore nella query: " . mysqli_error($conn);
     }
 
-    $query = "SELECT * FROM casa_editrice";
+    $query = "SELECT * FROM casa_editrice ORDER BY nome";
     $risultato = mysqli_query($conn, $query);
 
     if ($risultato) {
@@ -53,11 +53,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aggiungi libro</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"/>
+    <title>aggiungi libro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/multiselect-dropdown.js"></script>
 </head>
 <body>
 
@@ -69,96 +74,123 @@
     </div>
 
     <header>
-        <div>
-            <a href="menu.php">Torna alla Home</a>
-        </div>
-        <div>
-            Aggiungi un libro
-        </div>
-    </header>
-    <div id="contenuto">
-
-        <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formLibro">
-            
-            <label for="isbn">ISBN:</label>
-            <input type="text" id="isbn" name="isbn"><br>          
-    
-            <label for="titolo">Titolo:</label>
-            <input type="text" id="titolo" name="titolo"><br>
-
-            <div id="ricarica">
-                <label>Autore</label>
-                <div id="autoriSelezionati">
-
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: rgb(0, 255, 255);">
+            <div class="container-fluid" style="background-color: rgb(0, 255, 255);">
+                <a class="navbar-brand">Archivio</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link active" href="menu.php">Libri</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link active" href="aggiungiPrestito.php">Prestiti</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Aggiungi
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="aggiungiLibro.php">Aggiungi Libro</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="aggiungiAutore.php">Aggiungi Autore</a></li>
+                        <li><a class="dropdown-item" href="aggiungiGenere.php">Aggiungi Genere</a></li>
+                        <li><a class="dropdown-item" href="aggiungiCasaEditrice.php">Aggiungi Casa Editrice</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Aggiungi Cliente</a></li>
+                        <li><a class="dropdown-item" href="aggiungiUtente.php">Aggiungi Utente</a></li>
+                    </ul>
+                    </li>
+                </ul>
                 </div>
-                <select name="autore[]" id="autore" onchange="lista()" multiple="" multiselect-hide-x="true" multiselect-search="true" multiselect-select-all="true" multiselect-max-items="1">
+            </div>
+        </nav>
+    </header>
+    <div class="grid text-center">
+        <div class="g-col-4"></div>
+        <div class="g-col-4 contenuto">
+            <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formLibro">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="isbn" name="isbn" placeholder="isbn">
+                    <label for="isbn">ISBN</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="titolo" name="titolo" placeholder="titolo">
+                    <label for="titolo">Titolo</label>
+                </div>
+
+                <div id="ricarica">
+                    <div id="autoriSelezionati">
+
+                    </div>
+                    <select class="form-select" onchange="lista()" aria-label="Default select example" name="autore[]" id="autore">
+                        <option selected value="">scegli gli autori</option>
+                        <?php 
+                             for ($i=0; $i < count($autori); $i++) { 
+                                $cf = $autori[$i]['cf'];
+                                $nome = $autori[$i]['nome'];
+                                $cognome = $autori[$i]['cognome'];
+                                echo "<option value='$cf'>$cognome $nome</option>";
+                            }
+                        ?>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="aggiungiAutore()">Aggiungi Autore</button><br>
+                
+                <label for="genere">Genere</label>
+                <select name="genere" id="genere">
+                    <option value="">Seleziona il genere</option>
                     <?php 
-                        for ($i=0; $i < count($autori); $i++) { 
-                            $cf = $autori[$i]['cf'];
-                            $nome = $autori[$i]['nome'];
-                            $cognome = $autori[$i]['cognome'];
-                            echo "<option value='$cf'>$nome $cognome</option>";
+                        for ($i=0; $i < count($generi); $i++) { 
+                            $id = $generi[$i]['id'];
+                            $genere = $generi[$i]['genere'];
+                            echo "<option value='$id'>$genere</option>";
+                        }
+                    ?>
+                </select><br>
+        
+                <label for="prezzo">Prezzo:</label>
+                <input type="number" id="prezzo" name="prezzo" ><br>
+        
+                <label for="anno_publicazione">Anno di Pubblicazione:</label>
+                <input type="number" id="anno_publicazione" name="anno_publicazione"><br>
+        
+                <label for="casa_editrice">Casa editrice</label>
+                <select id="casa_editrice" name="casa_editrice">
+                    <option value="">Selezione la casa editrice</option>
+                    <?php 
+                        for ($i=0; $i < count($case); $i++) { 
+                            $id = $case[$i]['id'];
+                            $nome = $case[$i]['nome'];
+                            echo "<option value='$id'>$nome</option>";
                         }
                     ?>
                 </select>
-            </div>
-            <button type="button" onclick="aggiungiAutore()">Aggiungi Autore</button><br>
-
-            <script>
-                function lista(){
-                    const div = document.getElementById('autoriSelezionati')
-                    const select = document.getElementById('autore');
-                    const option_selezionati = Array.from(select.selectedOptions);
-
-                    const autori_selezionati = option_selezionati.map(function(option) {
-                        const nome_cognome = option.textContent.trim();
-                        return nome_cognome;
-                    });
-
-                    console.log(autori_selezionati)
-                    div.innerHTML = "";
-                    if(autori_selezionati.length > 0){
-                        autori_selezionati.forEach(autore => {
-                            div.innerHTML += `<span>${autore}; </span>`;
-                        });
-                    }
-                }
-            </script>
-            
-            <label for="genere">Genere</label>
-            <select name="genere" id="genere">
-                <option value="">Seleziona il genere</option>
-                <?php 
-                    for ($i=0; $i < count($generi); $i++) { 
-                        $id = $generi[$i]['id'];
-                        $genere = $generi[$i]['genere'];
-                        echo "<option value='$id'>$genere</option>";
-                    }
-                ?>
-            </select><br>
-    
-            <label for="prezzo">Prezzo:</label>
-            <input type="number" id="prezzo" name="prezzo" ><br>
-    
-            <label for="anno_publicazione">Anno di Pubblicazione:</label>
-            <input type="number" id="anno_publicazione" name="anno_publicazione"><br>
-    
-            <label for="casa_editrice">Casa editrice</label>
-            <select id="casa_editrice" name="casa_editrice">
-                <option value="">Selezione la casa editrice</option>
-                <?php 
-                    for ($i=0; $i < count($case); $i++) { 
-                        $id = $case[$i]['id'];
-                        $nome = $case[$i]['nome'];
-                        echo "<option value='$id'>$nome</option>";
-                    }
-                ?>
-            </select>
-    
-        </form>
-        <button type="button" onclick="controllaForm()">Aggiungi Libro</button>
+        
+            </form>
+            <button type="button" class="btn btn-primary" onclick="controllaForm()">Aggiungi Libro</button>
+        </div>
+        <div class="g-col-4"></div>
     </div>
+    <script>
+        function lista(){
+            const div = document.getElementById('autoriSelezionati')
+            const select = document.getElementById('autore');
+            const option_selezionati = Array.from(select.selectedOptions);
 
+            const autori_selezionati = option_selezionati.map(function(option) {
+                const nome_cognome = option.textContent.trim();
+                return nome_cognome;
+            });
+
+            console.log(autori_selezionati)
+            div.innerHTML = "";
+            if(autori_selezionati.length > 0){
+                autori_selezionati.forEach(autore => {
+                    div.innerHTML += `<span>${autore}; </span>`;
+                });
+            }
+        }
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function(){
             document.getElementById('isbn').value = sessionStorage.getItem('isbn') || '';
