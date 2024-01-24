@@ -1,0 +1,93 @@
+table, th, tr, td{
+    border: 1px solid black;
+    padding: 5px;
+    background-color: white;
+}
+body{
+    width: 100%;
+    margin: 0;
+    /* display: flex;
+    flex-direction: column; */
+    align-items: center;
+    background-color: blue;
+}
+/* a{
+    text-decoration: none;
+    color: black;
+    margin: 10px 0;
+}
+a:hover{
+    border: solid black 1px;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: blue;
+    color:white;
+    margin: 20px 0;
+} */
+nav{
+    background-color: rgb(0, 153, 255);
+    padding: 0;
+}
+.contenuto{
+    background-color: rgb(0, 153, 255);
+    border: solid black 1px;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 20px;
+    margin-top: 10px;
+}
+#autoriSelezionati > span{
+    border: solid black 1px;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: blue;
+    color:white;
+}
+.dropdown-menu{
+    min-width: 100%;
+}
+
+/*----------------------MODAL-----------------------*/
+/* Stile del modal */
+.modal {
+    z-index: 150;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Stile del contenuto del modal */
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: aqua;
+    padding: 5px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 800px;
+    height: 70%;
+}
+
+/* Stile del pulsante per chiudere il modal */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+}
+iframe{
+    width: 100%;
+    height: 80%;
+}
