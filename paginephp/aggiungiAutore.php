@@ -40,8 +40,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: rgb(0, 255, 255);">
-            <div class="container-fluid" style="background-color: rgb(0, 255, 255);">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary"  style="padding: 0;">
+            <div class="container-fluid" style="background-color: rgb(0, 153, 255);">
                 <a class="navbar-brand">Archivio</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">

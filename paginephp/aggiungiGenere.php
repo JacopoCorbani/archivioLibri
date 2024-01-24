@@ -29,8 +29,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: rgb(0, 255, 255);">
-            <div class="container-fluid" style="background-color: rgb(0, 255, 255);">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary"  style="padding: 0;">
+            <div class="container-fluid" style="background-color: rgb(0, 153, 255);">
                 <a class="navbar-brand">Archivio</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -60,13 +60,19 @@
             </div>
         </nav>
     </header>
-    <div id="contenuto">
+    <div class="grid text-center ">
+        <div class="g-col-4"></div>
+        <div class="g-col-4 contenuto">
         <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formAutore">
-    
-            <label for="genere">Genere:</label>
-            <input type="text" id="genere" name="genere">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="genere" name="genere" placeholder="genere">
+                <label for="genere">Genere</label>
+            </div>
         </form>
-        <button type="button" onclick="controllaForm()">Aggiungi Genere</button>
+        <button type="button" class="btn btn-primary" onclick="controllaForm()">Aggiungi Genere</button>
+        </div>
+        <div class="g-col-4"></div>
+        
     </div>
 
     <script>

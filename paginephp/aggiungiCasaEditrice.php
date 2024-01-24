@@ -28,8 +28,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: rgb(0, 255, 255);">
-            <div class="container-fluid" style="background-color: rgb(0, 255, 255);">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary"  style="padding: 0;">
+            <div class="container-fluid" style="background-color: rgb(0, 153, 255);">
                 <a class="navbar-brand">Archivio</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -59,20 +59,28 @@
             </div>
         </nav>
     </header>
-    <div id = "contenuto">
-        <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formAutore">
-    
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome"><br>
-    
-            <label for="via">Via</label>
-            <input type="text" id="via" name="via"><br>
-    
-            <label for="citta">Citta'</label>
-            <input type="text" id="citta" name="citta"><br>
-        </form>
-        <button type="button" onclick="controllaForm()">Aggiungi Casa editrice</button>
+    <div class="grid text-center">
+        <div class="g-col-4"></div>
+        <div class="g-col-4 contenuto">
+            <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formAutore">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="nome">
+                    <label for="nome">Nome</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="via" name="via" placeholder="via">
+                    <label for="via">Via</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="citta" name="citta" placeholder="citta">
+                    <label for="citta">Città</label>
+                </div>
+            </form>
+            <button type="button" class="btn btn-primary" onclick="controllaForm()">Aggiungi Casa editrice</button>
+        </div>
+        <div class="g-col-4"></div>
     </div>
+    
 
     <script>
         function controllaForm() {

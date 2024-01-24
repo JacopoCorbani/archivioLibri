@@ -27,8 +27,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: rgb(0, 255, 255);">
-            <div class="container-fluid" style="background-color: rgb(0, 255, 255);">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary"  style="padding: 0;">
+            <div class="container-fluid" style="background-color: rgb(0, 153, 255);">
                 <a class="navbar-brand">Archivio</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -58,60 +58,71 @@
             </div>
         </nav>
     </header>
-    <div id="contenuto">
-        <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formUtente">
-            <label for="nome">Nome</label>
-            <input type="text" name="nome"><br>
-
-            <label for="cognome">Cognome</label>
-            <input type="text" name="cognome"><br>
-
-            <label for="nomeUtente">Nome Utente</label>
-            <input type="text" name="nomeUtente"><br>
-
-            <label for="password">Password</label>
-            <input type="password" name="password"><br>
-
-            <label for="confermaPassword">Conferma password</label>
-            <input type="password" name="confermaPassword"><br>
-        </form>
-        <button type="button" onclick="controllaForm()">Aggiungi utente</button>
-        <script>
-            function controllaForm(){
-                const nome = document.getElementsByName('nome')[0];
-                const cognome = document.getElementsByName('cognome')[0];
-                const nomeUtente = document.getElementsByName('nomeUtente')[0];
-
-                const p1 = document.getElementsByName('password')[0];
-                const p2 = document.getElementsByName('confermaPassword')[0];
-                if((p1.value == p2.value && p1.value != "") && nome != "" && cognome != "" && nomeUtente != ""){
-                    console.log("le password coincidono");
-                    document.getElementById('formUtente').submit();
-                }else{
-                    console.log("le password non coincidono");
-                    p1.style.border = " solid red 2px";
-                    p2.style.border = " solid red 2px";
-                }
-            }
-        </script>
-
-        <?php 
-            if($_SERVER['REQUEST_METHOD'] === 'POST'){
-                $nome = $_POST["nome"];
-                $cognome = $_POST["cognome"];
-                $nomeUtente = $_POST["nomeUtente"];
-                $password = $_POST["password"];
-                $conferma = $_POST["confermaPassword"];
-
-                $passwordCriptata = password_hash($password, PASSWORD_DEFAULT);
-
-                if($password == $conferma && $password != ""){
-                    $query = "INSERT INTO utenti(nome, cognome, nomeUtente, passwordUtente) VALUES ('$nome', '$cognome', '$nomeUtente', '$passwordCriptata')";
-                    mysqli_query($conn, $query);
-                }
-                mysqli_close($conn);
-            }
-        ?>
+    <div class="grid text-center">
+        <div class="g-col-4"></div>
+        <div class="g-col-4 contenuto">
+            <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formUtente">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="nome">
+                    <label for="nome">Data inizio:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="cognome" name="cognome" placeholder="cognome">
+                    <label for="cognome">Cognome</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" placeholder="nomeUtente">
+                    <label for="nomeUtente">Data inizio:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="password">
+                    <label for="password">password</label>
+                </div>  
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="confermaPassword" name="confermaPassword" placeholder="confermaPassword">
+                    <label for="confermaPassword">Conferma password</label>
+                </div>
+            </form>
+            <button type="button" class="btn btn-primary" onclick="controllaForm()">Aggiungi Utente</button>
+        </div>
+        <div class="g-col-4"></div>
     </div>
+    <script>
+        function controllaForm(){
+            const nome = document.getElementsByName('nome')[0];
+            const cognome = document.getElementsByName('cognome')[0];
+            const nomeUtente = document.getElementsByName('nomeUtente')[0];
+
+            const p1 = document.getElementsByName('password')[0];
+            const p2 = document.getElementsByName('confermaPassword')[0];
+            if((p1.value == p2.value && p1.value != "") && nome != "" && cognome != "" && nomeUtente != ""){
+                console.log("le password coincidono");
+                document.getElementById('formUtente').submit();
+            }else{
+                console.log("le password non coincidono");
+                p1.style.border = " solid red 2px";
+                p2.style.border = " solid red 2px";
+            }
+        }
+    </script>
+
+    <?php 
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $nome = $_POST["nome"];
+            $cognome = $_POST["cognome"];
+            $nomeUtente = $_POST["nomeUtente"];
+            $password = $_POST["password"];
+            $conferma = $_POST["confermaPassword"];
+
+            $passwordCriptata = password_hash($password, PASSWORD_DEFAULT);
+
+            if($password == $conferma && $password != ""){
+                $query = "INSERT INTO utenti(nome, cognome, nomeUtente, passwordUtente) VALUES ('$nome', '$cognome', '$nomeUtente', '$passwordCriptata')";
+                mysqli_query($conn, $query);
+            }
+            mysqli_close($conn);
+        }
+    ?>
+    
 </body>
 </html>

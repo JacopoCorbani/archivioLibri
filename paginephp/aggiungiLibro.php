@@ -48,7 +48,24 @@
         echo "Errore nella query: " . mysqli_error($conn);
     }
     mysqli_close($conn);
-
+    $datiAutori = array();
+    for ($i=0; $i < count($autori); $i++) { 
+        $cf = $autori[$i]['cf'];
+        $nome = $autori[$i]['nome'];
+        $cognome = $autori[$i]['cognome'];
+        $array = array(
+        "cf" => $cf,
+        "nome" => $nome,
+        "cognome" => $cognome
+    );
+    $datiAutori[] = $array;
+    //echo "nome autori" . $array;
+    //echo "<option value='$cf'>$cognome $nome</option>";
+    //echo "<li class="checkboxAutore"><div class="form-check"><input class="form-check-input" type="checkbox" name="autore" value="$cf" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault" >$cognome $nome</label></div></li>";
+  }
+  //var_dump($datiAutori);
+  global $autoriJson;
+  $autoriJson = json_encode($datiAutori);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,8 +91,8 @@
     </div>
 
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: rgb(0, 255, 255);">
-            <div class="container-fluid" style="background-color: rgb(0, 255, 255);">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="padding: 0;">
+            <div class="container-fluid" style="background-color: rgb(0, 153, 255);">
                 <a class="navbar-brand">Archivio</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -118,27 +135,32 @@
                     <label for="titolo">Titolo</label>
                 </div>
 
-                <div id="ricarica">
-                    <div id="autoriSelezionati">
-
+                <div class="grid text-center" id="ricarica">
+                    <div class="g-col-8">
+                        <div class="dropdown" >
+                            <button class="btn btn-secondary dropdown-toggle" style="min-width: 100%; background-color: white; color:black;"; type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Seleziona autori
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li style="padding: 5px;">
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Autore</span>
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="inputRicerca" oninput="ricerca()">
+                                    </div>
+                                </li>
+                                <div id="autori">
+                    
+                                </div>
+                            </ul>
+                        </div>
                     </div>
-                    <select class="form-select" onchange="lista()" aria-label="Default select example" name="autore[]" id="autore">
-                        <option selected value="">scegli gli autori</option>
-                        <?php 
-                             for ($i=0; $i < count($autori); $i++) { 
-                                $cf = $autori[$i]['cf'];
-                                $nome = $autori[$i]['nome'];
-                                $cognome = $autori[$i]['cognome'];
-                                echo "<option value='$cf'>$cognome $nome</option>";
-                            }
-                        ?>
-                    </select>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="aggiungiAutore()">Aggiungi Autore</button><br>
+                    <div class="g-col-4">
+                        <button type="button" class="btn btn-primary" onclick="aggiungiAutore()">Aggiungi Autore</button><br>
+                    </div>
+                </div><br>
                 
-                <label for="genere">Genere</label>
-                <select name="genere" id="genere">
-                    <option value="">Seleziona il genere</option>
+                <select class="form-select" aria-label="Default select example" name="genere" id="genere">
+                    <option selected value="">seleziona un genere</option>
                     <?php 
                         for ($i=0; $i < count($generi); $i++) { 
                             $id = $generi[$i]['id'];
@@ -147,16 +169,16 @@
                         }
                     ?>
                 </select><br>
-        
-                <label for="prezzo">Prezzo:</label>
-                <input type="number" id="prezzo" name="prezzo" ><br>
-        
-                <label for="anno_publicazione">Anno di Pubblicazione:</label>
-                <input type="number" id="anno_publicazione" name="anno_publicazione"><br>
-        
-                <label for="casa_editrice">Casa editrice</label>
-                <select id="casa_editrice" name="casa_editrice">
-                    <option value="">Selezione la casa editrice</option>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="prezzo" name="prezzo" placeholder="prezzo">
+                    <label for="prezzo">Prezzo</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="anno_publicazione" name="anno_publicazione" placeholder="anno_publicazione">
+                    <label for="anno_publicazione">Anno di Pubblicazione:</label>
+                </div>
+                <select class="form-select" aria-label="Default select example" name="casa_editrice" id="casa_editrice">
+                    <option selected value="">seleziona una casa editrice</option>
                     <?php 
                         for ($i=0; $i < count($case); $i++) { 
                             $id = $case[$i]['id'];
@@ -223,7 +245,7 @@
         }
         function controllaForm() {
             var isbn = document.getElementById('isbn').value;
-            var autore = document.getElementById('autore').value;
+            var autore = document.getElementById('flexCheckDefault').value;
             var titolo = document.getElementById('titolo').value;
             var genere = document.getElementById('genere').value;
             var prezzo = document.getElementById('prezzo').value;
@@ -238,6 +260,74 @@
                 alert("Inserisci tutti i dati!!");
             }
         }
+    </script>
+    <script>
+      chekkati = []
+      function cheka(id){
+        if(chekkati.includes(id)){
+          const i = chekkati.indexOf(id)
+          chekkati.splice(i, 1)
+        }else{
+          chekkati.push(id)
+        }
+      }
+      function richiediArrayAutori(){
+        return <?php echo $autoriJson; ?>;
+      }
+      caricaSelect()
+      function caricaSelect(){
+        const arrayAutori = richiediArrayAutori();
+        const div = document.getElementById('autori')
+        div.innerHTML = "";
+        console.log(arrayAutori)
+
+        arrayAutori.forEach(autore => {
+          let str = "";
+          if(chekkati.includes(autore["cf"])){
+            str = "checked"
+          }else{
+            str = "";
+          }
+          div.innerHTML += `<li class="checkboxAutore" style="padding: 5px;">
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" ${str} onchange="cheka('${autore["cf"]}')" name="autore[]" value="${autore["cf"]}" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault" >${autore["cognome"] + " " + autore["nome"]}</label>
+                              </div>
+                            </li>`;
+        });
+      }
+      function ricerca(){
+        const div = document.getElementById('autori')
+        const autori = <?php echo $autoriJson; ?>;
+        const testo = document.getElementById('inputRicerca').value.toUpperCase();
+
+        if(testo === ''){
+          caricaSelect()
+        }else{
+          div.innerHTML = "";
+          Array.from(autori).forEach(autore => {
+            const nomeAutore = (autore["cognome"] + " " + autore["nome"]).toUpperCase();
+            
+            if (nomeAutore.includes(testo)) {
+              console.log(nomeAutore + ' -> ' + testo)
+              let str = "";
+              console.log(chekkati);
+              if(chekkati.includes(autore["cf"])){
+                str = "checked"
+              }else{
+                str = "";
+              }
+              div.innerHTML += `<li class="checkboxAutore" style="padding: 5px;">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" ${str} onchange="cheka('${autore["cf"]}')" name="autore[]" value="${autore["cf"]}" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault" >${autore["cognome"] + " " + autore["nome"]}</label>
+                                  </div>
+                                </li>`;
+            }
+          });
+        }
+        
+      }
     </script>
 
     <?php 

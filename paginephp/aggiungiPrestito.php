@@ -52,8 +52,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: rgb(0, 255, 255);">
-            <div class="container-fluid" style="background-color: rgb(0, 255, 255);">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary"  style="padding: 0;">
+            <div class="container-fluid" style="background-color: rgb(0, 153, 255);">
                 <a class="navbar-brand">Archivio</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -83,12 +83,12 @@
             </div>
         </nav>
     </header>
-    <div id="contenuto">
-        <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formPrestito">
-            
-            <label for="libro">Libro:</label>
-            <select name="libro" id="libro">
-                <option value="">scegli il libro</option>
+    <div class="grid text-center">
+        <div class="g-col-4"></div>
+        <div class="g-col-4 contenuto">
+            <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="formPrestito">
+                <select class="form-select" aria-label="Default select example" name="libro" id="libro">
+                    <option selected value="">seleziona un libro</option>
                     <?php 
                         for ($i=0; $i < count($libri); $i++) { 
                             $ISBN = $libri[$i]['ISBN'];
@@ -117,11 +117,9 @@
 
                         }
                     ?>
-            </select><br>
-    
-            <label for="cliente">Cliente:</label>
-            <select name="cliente" id="cliente">
-                <option value="">scegli il cliente</option>
+                </select><br>
+                <select class="form-select" aria-label="Default select example" name="cliente" id="cliente">
+                    <option selected value="">seleziona un cliente</option>
                     <?php 
                         for ($i=0; $i < count($clienti); $i++) { 
                             $cf = $clienti[$i]['cf'];
@@ -130,17 +128,21 @@
                             echo "<option value='$cf'>$nome $cognome</option>";
                         }
                     ?>
-            </select><br>
-    
-    
-            <label for="dataInizio">Data inizio:</label>
-            <input type="date" id="dataInizio" name="dataInizio"><br>            
-    
-            <label for="dataFine">Data fine</label>
-            <input type="date" id="dataFine" name="dataFine"><br>
-        </form>
-        <button type="button" onclick="controllaForm()">Aggiungi Autore</button>
+                </select><br>   
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="dataInizio" name="dataInizio" placeholder="dataInizio">
+                    <label for="dataInizio">Data inizio:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="dataFine" name="dataFine" placeholder="dataFine">
+                    <label for="dataFine">Data fine:</label>
+                </div>   
+            </form>
+            <button type="button" class="btn btn-primary" onclick="controllaForm()">Aggiungi Prestito</button>
+        </div>
+        <div class="g-col-4"></div>
     </div>
+    
 
     <script>
         function controllaForm() {
