@@ -3,7 +3,7 @@
     if(isset($_SESSION['login']) && $_SESSION['login'] == true){
         
     }else{
-        header("Location: menu.php");
+        header("Location: ../index.php");
         exit;
     }
     include "connessione.php";

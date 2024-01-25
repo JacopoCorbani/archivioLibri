@@ -28,6 +28,16 @@ nav{
     background-color: rgb(0, 153, 255);
     padding: 0;
 }
+<<<<<<< Updated upstream
+=======
+span{
+    background-color: grey;
+    color:black;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 5px;
+}
+>>>>>>> Stashed changes
 .contenuto{
     background-color: rgb(0, 153, 255);
     border: solid black 1px;

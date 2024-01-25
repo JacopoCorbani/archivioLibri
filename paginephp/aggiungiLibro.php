@@ -3,7 +3,7 @@
     if(isset($_SESSION['login']) && $_SESSION['login'] == true){
         
     }else{
-        header("Location: menu.php");
+        header("Location: ../index.php");
         exit;
     }
     include "connessione.php";
@@ -80,6 +80,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../css/style.css">
+<<<<<<< Updated upstream
+=======
+
+    <style>
+        .custom-dropdown.show {
+            display: block;
+        }
+  </style>
+>>>>>>> Stashed changes
 </head>
 <body>
 
@@ -134,14 +143,24 @@
                     <input type="text" class="form-control" id="titolo" name="titolo" placeholder="titolo">
                     <label for="titolo">Titolo</label>
                 </div>
+<<<<<<< Updated upstream
 
+=======
+                <div id="divAutoriSelezionati">
+
+                </div>
+>>>>>>> Stashed changes
                 <div class="grid text-center" id="ricarica">
                     <div class="g-col-8">
                         <div class="dropdown" >
                             <button class="btn btn-secondary dropdown-toggle" style="min-width: 100%; background-color: white; color:black;"; type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Seleziona autori
                             </button>
+<<<<<<< Updated upstream
                             <ul class="dropdown-menu">
+=======
+                            <ul class="dropdown-menu custom-dropdown">
+>>>>>>> Stashed changes
                                 <li style="padding: 5px;">
                                     <div class="input-group input-group-sm mb-3">
                                         <span class="input-group-text" id="inputGroup-sizing-sm">Autore</span>
@@ -193,6 +212,7 @@
         </div>
         <div class="g-col-4"></div>
     </div>
+<<<<<<< Updated upstream
     <script>
         function lista(){
             const div = document.getElementById('autoriSelezionati')
@@ -213,6 +233,8 @@
             }
         }
     </script>
+=======
+>>>>>>> Stashed changes
     <script>
         document.addEventListener('DOMContentLoaded', function(){
             document.getElementById('isbn').value = sessionStorage.getItem('isbn') || '';
@@ -261,6 +283,7 @@
             }
         }
     </script>
+<<<<<<< Updated upstream
     <script>
       chekkati = []
       function cheka(id){
@@ -280,6 +303,69 @@
         const div = document.getElementById('autori')
         div.innerHTML = "";
         console.log(arrayAutori)
+=======
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+    <script> //permette la chiusura del dropdown solo schiacciando fuori del menu
+     $('.custom-dropdown').on('click', function (e) {
+        e.stopPropagation();
+    });
+
+    $('.dropdown').on('show.bs.dropdown', function () {
+        $(this).find('.custom-dropdown').addClass('show');
+    });
+
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('.dropdown').length) {
+        $('.custom-dropdown').removeClass('show');
+        }
+    });
+    </script>
+
+
+    <script>
+        chekkati = []
+
+        function inserisciLabelAutori(){
+            const arrayAutori = richiediArrayAutori();
+            const div = document.getElementById('divAutoriSelezionati')
+            div.innerHTML = ""
+            arrayAutori.forEach(autore=>{
+                const i = chekkati.indexOf(autore["cf"]) 
+                if(i>-1){
+                    div.innerHTML += `<span>
+                                        ${autore["cognome"] + " " + autore["nome"]}
+                                        <button type="button" class="btn-close" aria-label="Close" onclick="cheka('${autore["cf"]}')"></button>
+                                    </span>`
+                }
+            })
+            ricerca()
+        }
+        function cheka(id){
+            const checkbox = document.querySelector('input[type="checkbox"][value="'+id+'"]')
+            if(chekkati.includes(id)){
+                const i = chekkati.indexOf(id)
+                chekkati.splice(i, 1)
+                checkbox.checked = false
+            }else{
+                chekkati.push(id)
+                checkbox.checked = true
+            }
+            inserisciLabelAutori()
+        }
+        function richiediArrayAutori(){
+            return <?php echo $autoriJson; ?>;
+        }
+        caricaSelect()
+        function caricaSelect(){
+            const arrayAutori = richiediArrayAutori();
+            const div = document.getElementById('autori')
+            div.innerHTML = "";
+            console.log(arrayAutori)
+>>>>>>> Stashed changes
 
         arrayAutori.forEach(autore => {
           let str = "";
@@ -289,8 +375,13 @@
             str = "";
           }
           div.innerHTML += `<li class="checkboxAutore" style="padding: 5px;">
+<<<<<<< Updated upstream
                               <div class="form-check">
                                 <input class="form-check-input" type="checkbox" ${str} onchange="cheka('${autore["cf"]}')" name="autore[]" value="${autore["cf"]}" id="flexCheckDefault">
+=======
+                              <div class="form-check"  onclick="cheka('${autore["cf"]}')">
+                                <input class="form-check-input" type="checkbox" ${str} name="autore[]" value="${autore["cf"]}" id="flexCheckDefault">
+>>>>>>> Stashed changes
                                 <label class="form-check-label" for="flexCheckDefault" >${autore["cognome"] + " " + autore["nome"]}</label>
                               </div>
                             </li>`;

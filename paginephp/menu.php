@@ -27,7 +27,11 @@
     } else {
         echo "Errore nella query: " . mysqli_error($conn);
     }
+<<<<<<< Updated upstream
 
+=======
+    //po
+>>>>>>> Stashed changes
     mysqli_close($conn);
 ?>
 <!DOCTYPE html>
@@ -209,6 +213,10 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script>
         new DataTable('#libri');
+<<<<<<< Updated upstream
+=======
+        console.log("porco dutos");
+>>>>>>> Stashed changes
     </script>
 </body>
 </html> 
